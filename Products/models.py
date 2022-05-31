@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+from mptt.fields import TreeForeignKey
+from mptt.models import MPTTModel
 
 
 class Customer(models.Model):
@@ -13,8 +15,12 @@ class Customer(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Category(MPTTModel):
     name = models.CharField(max_length=20)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children', default=None)
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
 
     class Meta:
         verbose_name_plural = 'Categories'

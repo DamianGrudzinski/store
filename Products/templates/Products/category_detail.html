@@ -1,0 +1,19 @@
+{% load mptt_tags %}
+
+<h1>{{ object.name }}</h1>
+
+
+
+<hr>
+
+<ol>
+    {% for product in products %}
+        <li>
+            <b>{{ product.name }}<br></b>
+            {{ product.category }}<br>
+            {{ product.club }}<br>
+            {{ product.description }}<br>
+            {{ product.price }}<br>
+        </li>
+    {% endfor %}
+</ol>
