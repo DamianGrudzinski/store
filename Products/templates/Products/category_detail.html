@@ -2,18 +2,32 @@
 
 <h1>{{ object.name }}</h1>
 
-
-
 <hr>
+
+<h2>Categories</h2>
+<ul>
+    {% recursetree categories %}
+    <li>
+        <a href="{% url 'category' node.id %}">{{ node.name }}</a>
+        {% if not node.is_leaf_node %}
+        <ul>
+            {{ children }}
+        </ul>
+        {% endif %}
+    </li>
+    {% endrecursetree %}
+</ul>
+
+<h2>Products</h2>
 
 <ol>
     {% for product in products %}
-        <li>
-            <b>{{ product.name }}<br></b>
-            {{ product.category }}<br>
-            {{ product.club }}<br>
-            {{ product.description }}<br>
-            {{ product.price }}<br>
-        </li>
+        <li><a href="{% url 'product' product.id %}">{{ product.name }}</a></li>
+        <!--
+        {{ product.category }}
+        {{ product.club }}
+        {{ product.description }}
+        {{ product.price }}
+        -->
     {% endfor %}
 </ol>

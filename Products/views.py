@@ -1,7 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from Products.models import Product, Category
+from Products.models import *
 
 
 class CategoryDetailView(DetailView):
@@ -9,11 +7,14 @@ class CategoryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        context["categories"] = context['category'].get_descendants()
         context["products"] = Product.objects.filter(category=context['category'])
         return context
 
 
-class ProductListView(ListView):
-    # model = Product
+class IndexView(ListView):
     model = Category
+
+
+class ProductDetailView(DetailView):
+    model = Product

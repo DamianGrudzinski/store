@@ -1,0 +1,17 @@
+<h1>{{ object.name }}</h1>
+
+<hr>
+
+<dl>
+    <dt>category</dt>
+    <dd><a href="{% url 'category' object.category.id %}">{{ object.category.name }}</a></dd>
+
+    <dt>club</dt>
+    <dd>{{ object.club }}</dd>
+
+    <dt>description</dt>
+    <dd>{{ object.description }}</dd>
+
+    <dt>price</dt>
+    <dd>{{ object.price }}</dd>
+</dl>
