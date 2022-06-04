@@ -1,0 +1,14 @@
+<h1>Profile</h1>
+
+<hr>
+
+<ul>
+    <li><b>Username:</b> {{ user.get_username }}</li>
+    <li><b>E-mail:</b> {{ user.email|default:'-' }}</li>
+    <li></li>
+    <li><a href="{% url 'user_orders' %}">Your Orders</a></li>
+    <li></li>
+    <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+    <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+    <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+</ul>

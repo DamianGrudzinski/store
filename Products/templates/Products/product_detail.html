@@ -15,3 +15,8 @@
     <dt>price</dt>
     <dd>{{ object.price }}</dd>
 </dl>
+
+<form method="post" action="{% url 'product' object.id %}">
+    {% csrf_token %}
+    <button type="submit">Add to cart</button>
+</form>

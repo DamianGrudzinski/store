@@ -132,4 +132,4 @@ AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend",
 SITE_ID = 1
 
 LOGIN_URL = "account_login"
-LOGIN_REDIRECT_URL = "index"
+LOGIN_REDIRECT_URL = "user_profile"

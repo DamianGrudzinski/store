@@ -1,0 +1,44 @@
+<h1>Create Order</h1>
+
+<hr>
+
+{% if not cart.items.count %}
+
+    <p>Yur cart is empty.</p>
+
+{% else %}
+
+    <table width="100%" border="1">
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+        {% for item in cart.items.all %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{% widthratio item.product.price 1 item.quantity %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form method="post" action="{% url 'place_order' %}" autocomplete="off">
+        {% csrf_token %}
+
+        <label for="shipping_address">shipping address</label>
+        <textarea name="shipping_address" id="shipping_address" cols="30" rows="10"></textarea>
+
+        <br>
+
+        <label for="billing_address">billing address</label>
+        <textarea name="billing_address" id="billing_address" cols="30" rows="10"></textarea>
+
+        <br>
+        
+        <button type="submit" name="place_order">Place Order</button>
+    </form>
+
+{% endif %}
