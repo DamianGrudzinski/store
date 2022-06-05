@@ -1,33 +1,47 @@
+{% extends 'bootstrap5/bootstrap5.html' %}
+
+{% load bootstrap5 %}
 {% load mptt_tags %}
 
-<h1>{{ object.name }}</h1>
+{% block bootstrap5_title %}Shop &gt; {{ object.name }}{% endblock %}
 
-<hr>
+{% block bootstrap5_content %}
+{% include 'navbar.html' %}
 
-<h2>Categories</h2>
-<ul>
-    {% recursetree categories %}
-    <li>
-        <a href="{% url 'category' node.id %}">{{ node.name }}</a>
-        {% if not node.is_leaf_node %}
-        <ul>
-            {{ children }}
-        </ul>
-        {% endif %}
-    </li>
-    {% endrecursetree %}
-</ul>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2" style="background:rgb(248, 249, 250)">
+            <h3>{{ object.name }}</h3>
+            <ul class="nav flex-column">
+                {% recursetree categories %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'category' node.id %}">{{ node.name }}</a>
 
-<h2>Products</h2>
-
-<ol>
-    {% for product in products %}
-        <li><a href="{% url 'product' product.id %}">{{ product.name }}</a></li>
-        <!--
-        {{ product.category }}
-        {{ product.club }}
-        {{ product.description }}
-        {{ product.price }}
-        -->
-    {% endfor %}
-</ol>
+                    {% if not node.is_leaf_node %}
+                    <ul class="nav flex-column">
+                        {{ children }}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endrecursetree %}
+            </ul>
+        </div>
+        <div class="col">
+            <h3>Products</h3>
+            <div class="row">
+                {% for product in products %}
+                <div class="col-3">
+                    <div class="card">
+                        <h5 class="card-header"><a href="{% url 'product' product.id %}">{{ product.name }}</a></h5>
+                        <div class="card-body">
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                        <div class="card-footer text-muted">Price: {{ product.price }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

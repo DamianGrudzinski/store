@@ -1,45 +1,64 @@
-<h1>Cart</h1>
+{% extends 'bootstrap5/bootstrap5.html' %}
 
-<hr>
+{% load bootstrap5 %}
+{% load mptt_tags %}
 
-{% if not cart.items.count %}
+{% block bootstrap5_title %}Shop &gt; Cart{% endblock %}
 
-    <p>Yur cart is empty.</p>
+{% block bootstrap5_content %}
+{% include 'navbar.html' %}
 
-{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <br>
 
-    <table width="100%" border="1">
-        <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-            <th></th>
-        </tr>
-        {% for item in cart.items.all %}
-        <tr>
-            <td><a href="{% url 'product' item.product.id %}">{{ item.product.name }}</a></td>
-            <td>{{ item.product.price }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{% widthratio item.product.price 1 item.quantity %}</td>
-            <td>
-                <form method="post" action="{% url 'cart' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="remove_item">
-                    <input type="hidden" name="item_id" value="{{ item.id }}">
-                    <button type="submit">remove</button>
-                </form>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">empty</td>
-        </tr>
-        {% endfor %}
-    </table>
+            {% if not cart.items.count %}
 
-    <p style="text-align: right">
-        <a href="{% url 'place_order' %}">Place Order</a>
-    </p>
+                <div class="alert alert-info">Cart is empty</div>
 
-{% endif %}
+            {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.items.all %}
+                            <tr>
+                                <td><a href="{% url 'product' item.product.id %}">{{ item.product.name }}</a></td>
+                                <td>{{ item.product.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{% widthratio item.product.price 1 item.quantity %}</td>
+                                <td class="text-end">
+                                    <form method="post" action="{% url 'cart' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="remove_item">
+                                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                                        <button class="btn btn-danger btn-sm" type="submit">remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            {% endif %}
+        </div>
+    </div>
+
+    {% if cart.items.count %}
+        <br>
+        <div class="row">
+            <div class="col text-center">
+                <a class="btn btn-primary" href="{% url 'place_order' %}">Place Order</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

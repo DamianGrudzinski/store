@@ -1,22 +1,31 @@
-<h1>{{ object.name }}</h1>
+{% extends 'bootstrap5/bootstrap5.html' %}
 
-<hr>
+{% load bootstrap5 %}
+{% load mptt_tags %}
 
-<dl>
-    <dt>category</dt>
-    <dd><a href="{% url 'category' object.category.id %}">{{ object.category.name }}</a></dd>
+{% block bootstrap5_title %}Shop &gt; {{ object.name }}{% endblock %}
 
-    <dt>club</dt>
-    <dd>{{ object.club }}</dd>
+{% block bootstrap5_content %}
+{% include 'navbar.html' %}
 
-    <dt>description</dt>
-    <dd>{{ object.description }}</dd>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h3>{{ object.name }}</h3>
+            <b>Price: {{ object.price }}</b>
+            <p>{{ object.description }}</p>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+        <div class="row">
+            <div class="col text-end">
+                <form method="post" action="{% url 'product' object.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Add to cart</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+</div>
 
-    <dt>price</dt>
-    <dd>{{ object.price }}</dd>
-</dl>
-
-<form method="post" action="{% url 'product' object.id %}">
-    {% csrf_token %}
-    <button type="submit">Add to cart</button>
-</form>
+{% endblock %}
